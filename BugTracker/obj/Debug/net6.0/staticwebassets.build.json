@@ -1,8 +1,8 @@
 {
   "Version": 1,
-  "Hash": "bsZpGBELT9tjDTokSb/QcoBwv2sR2cTl9iKDspmdM/Q=",
-  "Source": "BugTracker",
-  "BasePath": "_content/BugTracker",
+  "Hash": "XIhJQZr+L9La2ZBVEC/gLNcrhly9O7H2jQSQz4Q9VWI=",
+  "Source": "BugTracker.UI",
+  "BasePath": "_content/BugTracker.UI",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
