@@ -1,4 +1,4 @@
-﻿using Entities;
+﻿using BugTracker.Core.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -14,12 +14,12 @@ namespace BugTracker.Core.Domain.IdentityEntities
         public string? Name { get; set; }
 
         [InverseProperty("Reporter")]
-        public ICollection<Ticket> ReportedTickets { get; set; }
+        public ICollection<Ticket>? ReportedTickets { get; set; }
 
         [InverseProperty("AssignedDevs")]
-        public ICollection<Ticket> AssignedInTickets { get; set; }
-        [InverseProperty("AssignedDevs")]
-        public ICollection<Project> Projects { get; set; }
+        public ICollection<Ticket>? AssignedInTickets { get; set; }
+       
+        public ICollection<Project>? Projects { get; set; }
 
 
     }
