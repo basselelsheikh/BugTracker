@@ -6,16 +6,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
-namespace BugTracker.Core.DTO
+namespace BugTracker.Core.DTO.TicketDTO
 {
     public class TicketAddDTO
     {
-        public string Title { get; set; }
-        public string Description { get; set; }
+        [Required]
+        public string? Title { get; set; }
+        public string? Description { get; set; }
+        [Required]
         public SeverityOptions Severity { get; set; }
-        public ICollection<ApplicationUser>? AssignedDevs { get; set; }
-        public TicketTypeOptions Type { get; set; }
-        public StatusOptions Status { get; set; } 
+        [Required]
+        public TicketTypeOptions? Type { get; set; }
     }
 }

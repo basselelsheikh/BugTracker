@@ -1,16 +1,14 @@
 ﻿using BugTracker.Core.Domain.IdentityEntities;
+using BugTracker.Core.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BugTracker.Core.Domain.Entities
+namespace BugTracker.Core.DTO.ProjectDTO
 {
-    /// <summary>
-    /// Project domain model class
-    /// </summary>
-    public class Project
+    public class ProjectResponseDTO
     {
         public int ProjectId { get; set; }
         public string? Name { get; set; }

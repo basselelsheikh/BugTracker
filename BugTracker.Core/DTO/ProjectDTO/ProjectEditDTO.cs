@@ -1,22 +1,20 @@
 ﻿using BugTracker.Core.Domain.IdentityEntities;
+using BugTracker.Core.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
-namespace BugTracker.Core.Domain.Entities
+namespace BugTracker.Core.DTO.ProjectDTO
 {
-    /// <summary>
-    /// Project domain model class
-    /// </summary>
-    public class Project
+    public class ProjectEditDTO
     {
-        public int ProjectId { get; set; }
+        [Required]
         public string? Name { get; set; }
         public string? Description { get; set; }
-        public ICollection<ApplicationUser>? Team { get; set; }
-        public ICollection<Ticket>? Tickets { get; set; }
+        [Url]
         public string? RepoLink { get; set; }
     }
 }
