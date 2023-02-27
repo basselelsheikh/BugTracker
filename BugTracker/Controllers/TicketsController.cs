@@ -1,8 +1,10 @@
-﻿using BugTracker.Core.ServiceContracts.TicketServicesContracts;
+﻿using BugTracker.Core.DTO.TicketDTO;
+using BugTracker.Core.ServiceContracts.TicketServicesContracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BugTracker.UI.Controllers
 {
+    [Route("[controller]/[action]")]
     public class TicketsController : Controller
     {
         private readonly ITicketAdder _ticketAdder;
@@ -17,10 +19,18 @@ namespace BugTracker.UI.Controllers
             _ticketGetter = ticketGetter;
             _ticketUpdater = ticketUpdater;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            
+            ViewBag.Tickets = await _ticketGetter.GetAllTickets();
             return View();
         }
+        [Route("{id:int}")]
+        public async Task<IActionResult> Details(int id)
+        {
+            ViewBag.Ticket =  await _ticketGetter.GetTicket(id);
+            return View();
+        }
+
+
     }
 }

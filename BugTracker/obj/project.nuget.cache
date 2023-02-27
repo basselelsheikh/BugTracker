@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "EE1T9DxtNIU+AC4YYV7+gZsN2n1DGeA/Bo1dz8w+fmNfNDHsMvEkz1TUJo3+Z4W1AMOHH/5Af/jo6mlldXcaPg==",
+  "dgSpecHash": "q1TF4WD3N4xzoS3vCMM2dWLdt/8s/vQyqJLtzT8i2GO1PoF2865lZifqXQhSIfaw8HMF3w7K2SOUIyh4WrssMQ==",
   "success": true,
   "projectFilePath": "C:\\aspnetcore\\BugTracker\\BugTracker\\BugTracker.UI.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\beso_\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\beso_\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",
     "C:\\Users\\beso_\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
     "C:\\Users\\beso_\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\beso_\\.nuget\\packages\\microsoft.aspnetcore.authentication.cookies\\2.2.0\\microsoft.aspnetcore.authentication.cookies.2.2.0.nupkg.sha512",
@@ -21,7 +23,7 @@
     "C:\\Users\\beso_\\.nuget\\packages\\microsoft.aspnetcore.identity\\2.2.0\\microsoft.aspnetcore.identity.2.2.0.nupkg.sha512",
     "C:\\Users\\beso_\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\6.0.14\\microsoft.aspnetcore.identity.entityframeworkcore.6.0.14.nupkg.sha512",
     "C:\\Users\\beso_\\.nuget\\packages\\microsoft.aspnetcore.webutilities\\2.2.0\\microsoft.aspnetcore.webutilities.2.2.0.nupkg.sha512",
-    "C:\\Users\\beso_\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\beso_\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\beso_\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",
     "C:\\Users\\beso_\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.1.1\\microsoft.data.sqlclient.sni.runtime.2.1.1.nupkg.sha512",
     "C:\\Users\\beso_\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.14\\microsoft.entityframeworkcore.6.0.14.nupkg.sha512",

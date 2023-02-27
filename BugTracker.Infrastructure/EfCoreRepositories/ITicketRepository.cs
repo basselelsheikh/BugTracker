@@ -21,9 +21,9 @@ namespace BugTracker.Infrastructure.EfCoreRepositories
         {
             return await _context.Tickets.Include("AssignedDevs").Include("Project").ToListAsync();
         }
-        public async Task<Ticket?> GetTicket(int ID)
+        public async Task<Ticket?> GetTicket(int id)
         {
-            return await _context.Tickets.Include("AssignedDevs").Include("Project").FirstOrDefaultAsync(t => t.TicketId == ID);
+            return await _context.Tickets.Include("AssignedDevs").Include("Project").FirstOrDefaultAsync(t => t.TicketId == id);
         }
 
     }

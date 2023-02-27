@@ -1,0 +1,30 @@
+﻿@using BugTracker.Core.DTO.TicketDTO;
+@using BugTracker.Core.Domain.Entities;
+@model TicketResponseDTO
+<div class="row">
+    <div class="col"></div>
+    <div class="col">
+        <h1>Comments</h1>
+        @if (Model.Comments is not null)
+        {
+            <ol class="list-group">
+                @foreach (Comment comment in Model.Comments)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">@comment.Commenter</div>
+                            @comment.CommentText
+                        </div>
+                    </li>
+                }
+            </ol>
+        }
+        <form asp-controller="Tickets" asp-action="">
+            <div class="mb-3">
+                <textarea class="form-control" rows="3" placeholder="Write a Comment..."></textarea>
+            </div>
+        </form>
+
+
+    </div>
+</div>

@@ -1,4 +1,7 @@
-﻿using BugTracker.Core.Domain.Entities;
+﻿using AutoMapper;
+using BugTracker.Core.Domain.Entities;
+using BugTracker.Core.DTO.TicketDTO;
+using BugTracker.Core.RepositoryContracts;
 using BugTracker.Core.ServiceContracts.TicketServicesContracts;
 using System;
 using System.Collections.Generic;
@@ -10,15 +13,23 @@ namespace BugTracker.Core.Services
 {
     public class TicketGetter : ITicketGetter
     {
-        public IEnumerable<Ticket> GetAllTickets()
+        private readonly ITicketRepository _ticketRepository;
+        private readonly IMapper _mapper;
+        public TicketGetter(ITicketRepository ticketRepository, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _ticketRepository = ticketRepository;
+            _mapper = mapper;
+        }
+        public async Task<IEnumerable<TicketResponseDTO>> GetAllTickets()
+        {
+            IEnumerable<Ticket> result = await _ticketRepository.GetAllTickets();
+            return result.Select(ticket => _mapper.Map<TicketResponseDTO>(ticket));
 
         }
 
-        public IEnumerable<Ticket> GetTicket(int ID)
+        public async Task<TicketResponseDTO> GetTicket(int id)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<TicketResponseDTO>(await _ticketRepository.GetTicket(id));
         }
     }
 }

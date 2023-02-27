@@ -1,4 +1,5 @@
 ﻿using BugTracker.Core.Domain.Entities;
+using BugTracker.Core.DTO.TicketDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace BugTracker.Core.ServiceContracts.TicketServicesContracts
 {
     public interface ITicketGetter
     {
-        public IEnumerable<Ticket> GetAllTickets();
-        public IEnumerable<Ticket> GetTicket(int ID);
+        public Task<IEnumerable<TicketResponseDTO>> GetAllTickets();
+        public Task<TicketResponseDTO> GetTicket(int ID);
     }
 }
