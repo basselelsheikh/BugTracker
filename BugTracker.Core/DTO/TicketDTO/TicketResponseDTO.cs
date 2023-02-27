@@ -14,7 +14,7 @@ namespace BugTracker.Core.DTO.TicketDTO
         public string? Description { get; set; }
         public string? Severity { get; set; }
         public ApplicationUser? Reporter { get; set; }
-        public ICollection<ApplicationUser>? AssignedDevs { get; set; }
+        public IEnumerable<ApplicationUser>? AssignedDevs { get; set; }
         public string? Type { get; set; }
         public string? Status { get; set; }
         public DateTime? Reported { get; set; }

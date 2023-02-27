@@ -24,10 +24,6 @@ namespace BugTracker.Infrastructure.DbContext
             modelBuilder.Entity<Comment>().ToTable("Comments");
             modelBuilder.Entity<Ticket>().ToTable("Tickets");
             modelBuilder.Entity<Project>().ToTable("Projects");
-        
-            
-
-
         }
 
     }

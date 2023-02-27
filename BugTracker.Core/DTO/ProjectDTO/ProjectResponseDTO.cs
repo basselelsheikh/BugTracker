@@ -13,8 +13,8 @@ namespace BugTracker.Core.DTO.ProjectDTO
         public int ProjectId { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
-        public ICollection<ApplicationUser>? Team { get; set; }
-        public ICollection<Ticket>? Tickets { get; set; }
+        public IEnumerable<ApplicationUser>? Team { get; set; }
+        public IEnumerable<Ticket>? Tickets { get; set; }
         public string? RepoLink { get; set; }
     }
 }

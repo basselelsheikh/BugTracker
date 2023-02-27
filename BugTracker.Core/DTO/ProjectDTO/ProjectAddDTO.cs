@@ -14,7 +14,7 @@ namespace BugTracker.Core.DTO.ProjectDTO
         [Required]
         public string? Name { get; set; }
         public string? Description { get; set; }
-        public ICollection<ApplicationUser>? Team { get; set; }
+        public IEnumerable<ApplicationUser>? Team { get; set; }
         [Url]
         public string? RepoLink { get; set; }
     }

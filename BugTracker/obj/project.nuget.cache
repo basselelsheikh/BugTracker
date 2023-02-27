@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "WsSC3hUx6dAIfHGTTSwdeNj22M1TbyWGG3MeowaaZC9ezwFlGBt3gz9TCdYB/AT3o4GapSz1uDZgV3TOJ/iR8Q==",
+  "dgSpecHash": "EE1T9DxtNIU+AC4YYV7+gZsN2n1DGeA/Bo1dz8w+fmNfNDHsMvEkz1TUJo3+Z4W1AMOHH/5Af/jo6mlldXcaPg==",
   "success": true,
   "projectFilePath": "C:\\aspnetcore\\BugTracker\\BugTracker\\BugTracker.UI.csproj",
   "expectedPackageFiles": [
