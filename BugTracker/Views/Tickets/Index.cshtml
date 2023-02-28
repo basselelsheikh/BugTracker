@@ -19,14 +19,11 @@
         <tr>
             @foreach (TicketResponseDTO ticket in Model)
             {
-                <a>
-                <td>@ticket.Title</td></a>
-                <a>
-                <td>@ticket.Severity</td></a>
-                <a>
-                <td>@ticket.Type</td></a>
-                <a>
-                <td>@ticket.Status</td></a>
+                <td>@ticket.Title</td>
+                <td>@ticket.Severity</td>
+                <td>@ticket.Type</td>
+                <td>@ticket.Status</td>
+                <td><a asp-controller="Tickets" asp-action="Details">Details</a></td>
             }
         </tr>
     </tbody>

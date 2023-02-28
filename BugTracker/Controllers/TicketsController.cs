@@ -21,14 +21,18 @@ namespace BugTracker.UI.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            ViewBag.Tickets = await _ticketGetter.GetAllTickets();
-            return View();
+            IEnumerable<TicketResponseDTO> Tickets = await _ticketGetter.GetAllTickets();
+            return View(Tickets);
         }
         [Route("{id:int}")]
         public async Task<IActionResult> Details(int id)
         {
-            ViewBag.Ticket =  await _ticketGetter.GetTicket(id);
-            return View();
+            TicketResponseDTO ticket = await _ticketGetter.GetTicket(id);
+            return View(ticket);
+        }
+        public IActionResult AddComment(string commentText) {
+
+
         }
 
 

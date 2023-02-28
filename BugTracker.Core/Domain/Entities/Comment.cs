@@ -10,8 +10,8 @@ namespace BugTracker.Core.Domain.Entities
     public class Comment
     {
         public int CommentId { get; set; } 
-        public ApplicationUser Commenter { get; set; }
-        public string CommentText { get; set; }
+        public ApplicationUser? Commenter { get; set; }
+        public string? CommentText { get; set; }
         public DateTime Date { get; set; }
 
     }

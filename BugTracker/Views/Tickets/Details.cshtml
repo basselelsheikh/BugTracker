@@ -2,7 +2,56 @@
 @using BugTracker.Core.Domain.Entities;
 @model TicketResponseDTO
 <div class="row">
-    <div class="col"></div>
+    <div class="col">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Title</h5>
+                <p class="card-text">@Model.Description</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div class="fw-bold">Reporter</div>
+                    @Model.Reporter
+                    <span class="fw-light">@Model.Reported.ToString()</span>
+                </li>
+                <li class="list-group-item">
+                    <div class="fw-bold">Type</div>
+                    @Model.Type
+                </li>
+                <li class="list-group-item">
+                    <div class="fw-bold">Severity</div>
+                    @Model.Severity
+                </li>
+                <li class="list-group-item">
+                    <div class="fw-bold">Status</div>
+                    @Model.Status
+                </li>
+                <li class="list-group-item">
+                    <div class="fw-bold">Assigned Developers</div>
+                    @if (Model.AssignedDevs is not null)
+                    {
+                        <div class="list-group list-group-flush">
+                            @foreach (var developer in Model.AssignedDevs)
+                            {
+                                <a href="#" class="list-group-item list-group-item-action">@developer.Name</a>
+
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        @*Show link to assign developers if project manager*@
+                        <p class="fst-italic">No assigned developers yet</p>
+                    }
+                </li>
+            </ul>
+            <div class="card-body">
+                <a class="btn btn-primary card-link" asp-controller="Tickets" asp-action="Edit" role="button">Edit</a>
+                <a class="btn btn-danger card-link" asp-controller="Tickets" asp-action="Delete" role="button">Delete</a>
+            </div>
+        </div>
+
+    </div>
     <div class="col">
         <h1>Comments</h1>
         @if (Model.Comments is not null)
@@ -12,19 +61,20 @@
                 {
                     <li class="list-group-item d-flex justify-content-between align-items-start">
                         <div class="ms-2 me-auto">
-                            <div class="fw-bold">@comment.Commenter</div>
+                            <div class="fw-bold">@comment.Commenter<span class="fw-light">@comment.Date.ToString()</span></div>
                             @comment.CommentText
                         </div>
                     </li>
                 }
             </ol>
         }
-        <form asp-controller="Tickets" asp-action="">
+        <form asp-controller="Tickets" asp-action="AddComment">
             <div class="mb-3">
                 <textarea class="form-control" rows="3" placeholder="Write a Comment..."></textarea>
             </div>
+            @*Ticket ID*@
+            <input type="hidden" />
         </form>
-
 
     </div>
 </div>
