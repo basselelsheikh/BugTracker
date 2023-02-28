@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BugTracker.Core.Services
 {
-    public  class TicketAdder : ITicketAdder
+    public class TicketAdder : ITicketAdder
     {
 
     }

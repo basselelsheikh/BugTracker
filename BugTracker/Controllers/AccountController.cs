@@ -52,4 +52,5 @@ namespace BugTracker.UI.Controllers
                 return View(registerDTO);
             }
         }
+    }
 }

@@ -1,0 +1,30 @@
+﻿@using BugTracker.Core.DTO.TicketDTO;
+@model IEnumerable<TicketResponseDTO>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            Title
+        </tr>
+        <tr>
+            Severity
+        </tr>
+        <tr>
+            Type
+        </tr>
+        <tr>
+            Status
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            @foreach (TicketResponseDTO ticket in Model)
+            {
+                <td>@ticket.Title</td>
+                <td>@ticket.Severity</td>
+                <td>@ticket.Type</td>
+                <td>@ticket.Status</td>
+                <td><a asp-controller="Tickets" asp-action="Details" asp-route-ticketId="@ticket.TicketId">Details</a></td>
+            }
+        </tr>
+    </tbody>
+</table>

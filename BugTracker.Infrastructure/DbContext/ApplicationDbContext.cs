@@ -15,7 +15,7 @@ namespace BugTracker.Infrastructure.DbContext
     {
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Ticket> Tickets { get; set; }
-        public virtual DbSet<Project>? Projects { get; set; }
+        public virtual DbSet<Project> Projects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

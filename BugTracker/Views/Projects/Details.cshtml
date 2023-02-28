@@ -1,0 +1,54 @@
+﻿@using BugTracker.Core.DTO.ProjectDTO;
+@using BugTracker.Core.Domain.Entities;
+@model ProjectResponseDTO
+<div class="row">
+    <div class="col">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Name</h5>
+                <p class="card-text">@Model.Description</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div class="fw-bold">Team Members</div>
+                    @if (Model.Team is not null)
+                    {
+                        <div class="list-group list-group-flush">
+                            @foreach (var member in Model.Team)
+                            {
+                                <a href="#" class="list-group-item list-group-item-action">@member.Name</a>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        @*Show link to add team members if project manager*@
+                        <p class="fst-italic">No team members yet</p>
+                    }
+                    
+                </li>
+                <li class="list-group-item">
+                    <div class="fw-bold">Repository Link</div>
+                    @if (Model.RepoLink is not null)
+                    {
+                        @Model.RepoLink
+                    }
+                    else
+                    {
+                        <p class="fst-italic">No repository link added</p>
+                    }
+                </li>
+                
+            </ul>
+            <div class="card-body">
+                <a class="btn btn-primary card-link" asp-controller="Projects" asp-action="Edit" asp-route-projectId="@Model.ProjectId" role="button">Edit</a>
+                <a class="btn btn-danger card-link" asp-controller="Projects" asp-action="Delete" asp-route-projectId="@Model.ProjectId" role="button">Delete</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="col">
+        <vc:tickets-table project-id=@Model.ProjectId>
+        </vc:tickets-table>
+    </div>
+</div>

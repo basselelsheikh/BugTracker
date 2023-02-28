@@ -1,30 +1,25 @@
-﻿@using BugTracker.Core.DTO.TicketDTO;
-@model IEnumerable<TicketResponseDTO>
-<table class="table table-hover">
-    <thead>
-        <tr>
-            Title
-        </tr>
-        <tr>
-            Severity
-        </tr>
-        <tr>
-            Type
-        </tr>
-        <tr>
-            Status
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            @foreach (TicketResponseDTO ticket in Model)
-            {
-                <td>@ticket.Title</td>
-                <td>@ticket.Severity</td>
-                <td>@ticket.Type</td>
-                <td>@ticket.Status</td>
-                <td><a asp-controller="Tickets" asp-action="Details">Details</a></td>
-            }
-        </tr>
-    </tbody>
-</table>
+﻿<div class="row">
+    @*for everyone*@
+    <div class="col" id="reported-tickets">
+        <vc:tickets-table username=@User.Identity?.Name>
+        </vc:tickets-table>
+    </div>
+    @*for admins*@
+    @if (ViewBag.isAdmin)
+    {
+        <div class="col" id="system-tickets">
+            <vc:tickets-table>
+            </vc:tickets-table>
+        </div>
+    }
+    @*for developers*@
+    @if (ViewBag.isDeveloper)
+    {
+        <div class="col" id="assigned-tickets-to-developer">
+            <vc:tickets-table developer-username=@User.Identity?.Name>
+            </vc:tickets-table>
+        </div>
+    }
+    
+    
+</div>

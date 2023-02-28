@@ -22,7 +22,7 @@ namespace BugTracker.Core.Domain.Entities
         public string? Type { get; set; }
         public string? Status { get; set; }
         public DateTime Reported { get; set; }
-        public Project? Project { get; set; }
+        public Project Project { get; set; }
         public ICollection<Comment>? Comments { get; set; }
 
     }

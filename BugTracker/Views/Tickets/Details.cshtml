@@ -34,7 +34,6 @@
                             @foreach (var developer in Model.AssignedDevs)
                             {
                                 <a href="#" class="list-group-item list-group-item-action">@developer.Name</a>
-
                             }
                         </div>
                     }
@@ -46,8 +45,8 @@
                 </li>
             </ul>
             <div class="card-body">
-                <a class="btn btn-primary card-link" asp-controller="Tickets" asp-action="Edit" role="button">Edit</a>
-                <a class="btn btn-danger card-link" asp-controller="Tickets" asp-action="Delete" role="button">Delete</a>
+                <a class="btn btn-primary card-link" asp-controller="Tickets" asp-action="Edit" asp-route-ticketId="@Model.TicketId" role="button">Edit</a>
+                <a class="btn btn-danger card-link" asp-controller="Tickets" asp-action="Delete" asp-route-ticketId="@Model.TicketId" role="button">Delete</a>
             </div>
         </div>
 
@@ -68,11 +67,11 @@
                 }
             </ol>
         }
+        @*Show only when authorized*@
         <form asp-controller="Tickets" asp-action="AddComment">
             <div class="mb-3">
                 <textarea class="form-control" rows="3" placeholder="Write a Comment..."></textarea>
             </div>
-            @*Ticket ID*@
             <input type="hidden" />
         </form>
 
