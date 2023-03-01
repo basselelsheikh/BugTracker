@@ -14,5 +14,10 @@ namespace BugTracker.Core.Domain.Entities
         public string? CommentText { get; set; }
         public DateTime Date { get; set; }
 
+        public Comment()
+        {
+            Date = DateTime.Now;
+        }
     }
+    
 }

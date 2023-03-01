@@ -48,5 +48,12 @@ namespace BugTracker.Infrastructure.EfCoreRepositories
             ApplicationUser user = await _userManager.FindByNameAsync(username);
             return user.ReportedTickets;
         }
+
+        public async void AddCommentToTicket(int ticketId, Comment comment)
+        {
+            Ticket? ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.TicketId == ticketId);
+            ticket?.Comments?.Add(comment);
+            _context.SaveChanges();
+        }
     }
 }

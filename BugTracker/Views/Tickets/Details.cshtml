@@ -39,7 +39,7 @@
                     }
                     else
                     {
-                        @*Show link to assign developers if project manager*@
+                        @*NOTE: Show link to assign developers if project manager*@
                         <p class="fst-italic">No assigned developers yet</p>
                     }
                 </li>
@@ -67,12 +67,16 @@
                 }
             </ol>
         }
-        @*Show only when authorized*@
+        
         <form asp-controller="Tickets" asp-action="AddComment">
             <div class="mb-3">
-                <textarea class="form-control" rows="3" placeholder="Write a Comment..."></textarea>
+                <textarea name="commentText" class="form-control" rows="3" placeholder="Write a Comment..." required></textarea>
             </div>
-            <input type="hidden" />
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Add Comment</button>
+            </div>
+            <input type="hidden" name="username" value=@User.Identity?.Name />
+            <input type="hidden" name="ticketId" value=@Model.TicketId />
         </form>
 
     </div>

@@ -1,4 +1,5 @@
-﻿using BugTracker.Core.Domain.IdentityEntities;
+﻿using BugTracker.Core.Domain.Entities;
+using BugTracker.Core.Domain.IdentityEntities;
 using BugTracker.Core.DTO.TicketDTO;
 using BugTracker.Core.ServiceContracts.TicketServicesContracts;
 using Microsoft.AspNetCore.Identity;
@@ -23,51 +24,48 @@ namespace BugTracker.UI.Controllers
             _ticketGetter = ticketGetter;
             _ticketUpdater = ticketUpdater;
             _userManager = userManager;
-
-
         }
-        public async Task<IActionResult> Index(string username)
+        public void CheckUserRole()
         {
-            ApplicationUser user = await _userManager.FindByNameAsync(username);
-            if (await _userManager.IsInRoleAsync(user, "Admin"))
+            if (User.IsInRole("Admin"))
             {
                 ViewBag.isAdmin = true;
             }
-            else if (await _userManager.IsInRoleAsync(user, "Developer"))
+            else if (User.IsInRole("Developer"))
             {
                 ViewBag.isDeveloper = true;
             }
-            else if (await _userManager.IsInRoleAsync(user, "ProjectManager"))
+            else if (User.IsInRole("ProjectManager"))
             {
                 ViewBag.isProjectManager = true;
             }
-
+        }
+        public IActionResult Index(string username)
+        {
+            CheckUserRole();
             return View();
 
-        }
-
-        //tickets related to a particular project
-        //NOTE: should I add it to project or ticket controller?
-        [Route("{id:int}")]
-        public async Task<IActionResult> ProjectTickets(int projectId)
-        {
-            IEnumerable<TicketResponseDTO> Tickets = await _ticketGetter.GetTickets();
-            return View(Tickets);
         }
 
         [Route("{id:int}")]
         public async Task<IActionResult> Details(int id)
         {
-            TicketResponseDTO ticket = await _ticketGetter.GetTicket(id);
+            TicketResponseDTO? ticket = await _ticketGetter.GetTicket(id);
+            CheckUserRole();
             return View(ticket);
         }
-        public IActionResult AddComment(string commentText)
+
+        public async Task<IActionResult> AddComment(string commentText, string username, int ticketId)
+        {
+            ApplicationUser commenter = await _userManager.FindByNameAsync(username);
+            Comment comment = new Comment() { Commenter = commenter, CommentText = commentText };
+            await _ticketUpdater.AddCommentToTicket(ticketId, comment);
+            return RedirectToAction(nameof(Details), new { id = ticketId });
+        }
+        [HttpGet("/Edit")]
+        public async Task<IActionResult> Edit()
         {
 
-
         }
-
-
-
     }
 }

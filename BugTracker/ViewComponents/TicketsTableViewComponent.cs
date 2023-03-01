@@ -32,7 +32,7 @@ namespace BugTracker.UI.ViewComponents
             }
             else
             {
-                // If no condition provided, return all tickets, usually this is for admin roles only
+                //If no condition provided, return all tickets, usually this is for admin roles only
                 IEnumerable<TicketResponseDTO>? tickets = await _ticketGetter.GetTickets(t => t.Project.ProjectId == projectId);
                 return View(tickets);
 
