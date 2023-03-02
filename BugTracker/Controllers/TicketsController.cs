@@ -4,7 +4,9 @@ using BugTracker.Core.DTO.TicketDTO;
 using BugTracker.Core.ServiceContracts.TicketServicesContracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Runtime.CompilerServices;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace BugTracker.UI.Controllers
 {
@@ -62,10 +64,26 @@ namespace BugTracker.UI.Controllers
             await _ticketUpdater.AddCommentToTicket(ticketId, comment);
             return RedirectToAction(nameof(Details), new { id = ticketId });
         }
-        [HttpGet("/Edit")]
-        public async Task<IActionResult> Edit()
-        {
 
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            TicketResponseDTO? ticket = await _ticketGetter.GetTicket(id);
+            ViewBag.Developers = _userManager.GetUsersInRoleAsync("Developer").Result.Select(dev => new SelectListItem()
+            {
+                Text = dev.Name,
+                Value = dev.ToString()
+            });
+            return View(ticket);
+        }
+        [HttpPost("{id:int}")]
+        public IActionResult Edit(TicketUpdateDTO ticket)
+        {
+            if (!ModelState.IsValid) { return View(ticket); }
+            _ticketUpdater.UpdateTicket(ticket);
+           
+            return View();
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using BugTracker.Core.Domain.IdentityEntities;
+using AutoMapper;
 
 namespace BugTracker.Infrastructure.EfCoreRepositories
 {
@@ -17,10 +18,12 @@ namespace BugTracker.Infrastructure.EfCoreRepositories
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        public TicketRepository(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        private readonly IMapper _mapper;
+        public TicketRepository(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IMapper mapper)
         {
             _context = context;
             _userManager = userManager;
+            _mapper = mapper;
         }
         public async Task<IEnumerable<Ticket>?> GetTickets(Expression<Func<Ticket,bool>>? predicate)
         {
@@ -49,11 +52,23 @@ namespace BugTracker.Infrastructure.EfCoreRepositories
             return user.ReportedTickets;
         }
 
-        public async void AddCommentToTicket(int ticketId, Comment comment)
+        public async Task AddCommentToTicket(int ticketId, Comment comment)
         {
             Ticket? ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.TicketId == ticketId);
             ticket?.Comments?.Add(comment);
             _context.SaveChanges();
+        }
+
+        public async Task <int> UpdateTicket(Ticket ticket)
+        {
+            Ticket? ticketToUpdate = await _context.Tickets.FirstOrDefaultAsync(t => t.TicketId == ticket.TicketId);
+            if (ticketToUpdate is not null)
+            {
+                _mapper.Map<Ticket, Ticket>(ticket, ticketToUpdate);
+                _context.SaveChanges();
+                return ticketToUpdate.TicketId;
+            }
+            return ticket.TicketId;
         }
     }
 }

@@ -7,14 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using BugTracker.Core.Domain.Entities;
 
-namespace BugTracker.Core.DTO
+namespace BugTracker.Core.Domain
 {
     public class AutoMapperOrganizationProfile : Profile
     {
         public AutoMapperOrganizationProfile()
         {
             CreateMap<Ticket, TicketResponseDTO>();
-
+            CreateMap<TicketUpdateDTO, Ticket>();
         }
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using BugTracker.Core.DTO;
+using BugTracker.Core.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 #region Services Configuration

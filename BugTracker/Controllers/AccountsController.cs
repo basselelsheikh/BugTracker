@@ -16,7 +16,7 @@ namespace BugTracker.UI.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
-        
+        [Route("/")]
         [HttpGet]
         public IActionResult Login()
         {

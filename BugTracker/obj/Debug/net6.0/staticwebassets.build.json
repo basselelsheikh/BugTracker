@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "XIhJQZr+L9La2ZBVEC/gLNcrhly9O7H2jQSQz4Q9VWI=",
+  "Hash": "3icP5zExQ2JJxnbselv88kvnG3nE1OsycpsfbzeaJTI=",
   "Source": "BugTracker.UI",
   "BasePath": "_content/BugTracker.UI",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "BugTracker.UI\\wwwroot",
+      "Source": "BugTracker.UI",
+      "ContentRoot": "C:\\aspnetcore\\BugTracker\\BugTracker\\wwwroot\\",
+      "BasePath": "_content/BugTracker.UI",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

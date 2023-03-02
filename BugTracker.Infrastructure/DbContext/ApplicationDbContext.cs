@@ -17,6 +17,9 @@ namespace BugTracker.Infrastructure.DbContext
         public virtual DbSet<Ticket> Tickets { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
 
+        public ApplicationDbContext(DbContextOptions options) : base(options)
+        {
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

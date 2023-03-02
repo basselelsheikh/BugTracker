@@ -15,6 +15,7 @@ namespace BugTracker.Core.RepositoryContracts
         public Task<IEnumerable<Ticket>?> GetTicketsAssignedToDeveloper(string developerUsername);
         public Task<IEnumerable<Ticket>?> GetUserReportedTickets(string username);
         public Task AddCommentToTicket(int ticketId, Comment comment);
+        public Task<int> UpdateTicket(Ticket ticket);
 
     }
 }

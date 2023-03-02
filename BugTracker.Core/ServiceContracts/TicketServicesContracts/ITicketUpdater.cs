@@ -10,6 +10,7 @@ namespace BugTracker.Core.ServiceContracts.TicketServicesContracts
 {
     public interface ITicketUpdater
     {
-        public Task AddCommentToTicket(int ticketId,Comment comment);  
+        public Task AddCommentToTicket(int ticketId,Comment comment);
+        public Task<int> UpdateTicket(TicketUpdateDTO ticket);
     }
 }

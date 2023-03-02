@@ -16,7 +16,7 @@ namespace BugTracker.UI.ViewComponents
         {
             if(projectId is not null)
             {
-                IEnumerable<TicketResponseDTO> tickets = await _ticketGetter.GetTickets(t => t.Project.ProjectId == projectId);
+                IEnumerable<TicketResponseDTO>? tickets = await _ticketGetter.GetTickets(t => t.Project.ProjectId == projectId);
                 return View(tickets);
             }
             if(developerUsername is not null)
