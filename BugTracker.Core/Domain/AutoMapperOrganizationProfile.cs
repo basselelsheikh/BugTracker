@@ -15,6 +15,7 @@ namespace BugTracker.Core.Domain
         {
             CreateMap<Ticket, TicketResponseDTO>();
             CreateMap<TicketUpdateDTO, Ticket>();
+            CreateMap<TicketAddDTO, Ticket>();
         }
     }
 }

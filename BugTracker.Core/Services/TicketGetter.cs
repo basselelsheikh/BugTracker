@@ -36,11 +36,6 @@ namespace BugTracker.Core.Services
 
         }
 
-       /* public async Task<TicketResponseDTO> GetTicket(int id)
-        {
-            return _mapper.Map<TicketResponseDTO>(await _ticketRepository.GetTicket());
-        } */
-
         public async Task<IEnumerable<TicketResponseDTO>?> GetTicketsAssignedToDeveloper(string developerUsername)
         {
             IEnumerable<Ticket>? result = await _ticketRepository.GetTicketsAssignedToDeveloper(developerUsername);

@@ -43,6 +43,7 @@
             <div class="card-body">
                 <a class="btn btn-primary card-link" asp-controller="Projects" asp-action="Edit" asp-route-projectId="@Model.ProjectId" role="button">Edit</a>
                 <a class="btn btn-danger card-link" asp-controller="Projects" asp-action="Delete" asp-route-projectId="@Model.ProjectId" role="button">Delete</a>
+                <a class="btn btn-danger card-link" asp-controller="Projects" asp-action="CreateTicket" asp-route-projectId="@Model.ProjectId" role="button">Submit a Ticket</a>
             </div>
         </div>
 

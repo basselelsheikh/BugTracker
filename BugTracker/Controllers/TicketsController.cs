@@ -49,10 +49,10 @@ namespace BugTracker.UI.Controllers
 
         }
 
-        [Route("{id:int}")]
-        public async Task<IActionResult> Details(int id)
+        [Route("{ticketId:int}")]
+        public async Task<IActionResult> Details(int ticketId)
         {
-            TicketResponseDTO? ticket = await _ticketGetter.GetTicket(id);
+            TicketResponseDTO? ticket = await _ticketGetter.GetTicket(ticketId);
             CheckUserRole();
             return View(ticket);
         }
@@ -64,26 +64,33 @@ namespace BugTracker.UI.Controllers
             await _ticketUpdater.AddCommentToTicket(ticketId, comment);
             return RedirectToAction(nameof(Details), new { id = ticketId });
         }
-
-
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> Edit(int id)
+        [HttpGet("{ticketId:int}")]
+        public async Task<IActionResult> Edit(int ticketId)
         {
-            TicketResponseDTO? ticket = await _ticketGetter.GetTicket(id);
+            TicketResponseDTO? ticket = await _ticketGetter.GetTicket(ticketId);
             ViewBag.Developers = _userManager.GetUsersInRoleAsync("Developer").Result.Select(dev => new SelectListItem()
             {
                 Text = dev.Name,
                 Value = dev.ToString()
             });
+            CheckUserRole();
             return View(ticket);
         }
-        [HttpPost("{id:int}")]
-        public IActionResult Edit(TicketUpdateDTO ticket)
+        [HttpPost("{ticketId:int}")]
+        public IActionResult Edit(TicketUpdateDTO ticket, int ticketId)
         {
             if (!ModelState.IsValid) { return View(ticket); }
             _ticketUpdater.UpdateTicket(ticket);
-           
-            return View();
+            return RedirectToAction(nameof(Details), new { id = ticketId });
         }
+
+        [HttpGet("{ticketId:int}")]
+        public IActionResult Delete(int ticketId)
+        {
+            _ticketDeleter.DeleteTicket(ticketId);
+            return RedirectToAction(nameof(Details), new { id = ticketId });
+        }
+
+        
     }
 }

@@ -25,7 +25,7 @@ namespace BugTracker.Infrastructure.EfCoreRepositories
             _userManager = userManager;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<Ticket>?> GetTickets(Expression<Func<Ticket,bool>>? predicate)
+        public async Task<IEnumerable<Ticket>?> GetTickets(Expression<Func<Ticket, bool>>? predicate)
         {
             //if condition, get tickets by condition
             if (predicate is not null)
@@ -43,7 +43,7 @@ namespace BugTracker.Infrastructure.EfCoreRepositories
         public async Task<IEnumerable<Ticket>?> GetTicketsAssignedToDeveloper(string developerUsername)
         {
             ApplicationUser user = await _userManager.FindByNameAsync(developerUsername);
-            return user.AssignedInTickets;                                                                                                                                                                ;
+            return user.AssignedInTickets; ;
         }
 
         public async Task<IEnumerable<Ticket>?> GetUserReportedTickets(string username)
@@ -59,7 +59,7 @@ namespace BugTracker.Infrastructure.EfCoreRepositories
             _context.SaveChanges();
         }
 
-        public async Task <int> UpdateTicket(Ticket ticket)
+        public async Task<int> UpdateTicket(Ticket ticket)
         {
             Ticket? ticketToUpdate = await _context.Tickets.FirstOrDefaultAsync(t => t.TicketId == ticket.TicketId);
             if (ticketToUpdate is not null)
@@ -69,6 +69,20 @@ namespace BugTracker.Infrastructure.EfCoreRepositories
                 return ticketToUpdate.TicketId;
             }
             return ticket.TicketId;
+        }
+
+        public async Task<bool> DeleteTicket(int ticketId)
+        {
+            _context.Tickets.Remove(_context.Tickets.Single(tic => tic.TicketId == ticketId));
+            int rowsDeleted = await _context.SaveChangesAsync();
+            return rowsDeleted > 0;
+        }
+
+        public async Task<bool> AddTicket(Ticket ticket)
+        {
+            await _context.Tickets.AddAsync(ticket);
+            int addedRows = await _context.SaveChangesAsync();
+            return addedRows > 0;
         }
     }
 }

@@ -17,7 +17,11 @@ namespace BugTracker.Core.DTO.TicketDTO
         public string? Description { get; set; }
         [Required]
         public SeverityOptions Severity { get; set; }
+        public ICollection<ApplicationUser>? AssignedDevs { get; set; }
         [Required]
-        public TicketTypeOptions? Type { get; set; }
+        public TicketTypeOptions Type { get; set; }
+        [Required]
+        public StatusOptions Status { get; set; }
+
     }
 }

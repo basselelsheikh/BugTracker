@@ -8,5 +8,7 @@ namespace BugTracker.Core.ServiceContracts.TicketServicesContracts
 {
     public interface ITicketDeleter
     {
+        public Task<bool> DeleteTicket(int ticketId);
+
     }
 }
