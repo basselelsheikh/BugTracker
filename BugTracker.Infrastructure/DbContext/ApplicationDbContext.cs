@@ -27,6 +27,31 @@ namespace BugTracker.Infrastructure.DbContext
             modelBuilder.Entity<Comment>().ToTable("Comments");
             modelBuilder.Entity<Ticket>().ToTable("Tickets");
             modelBuilder.Entity<Project>().ToTable("Projects");
+            #region Relationships Configuration
+            modelBuilder.Entity<Ticket>()
+                .HasOne(t => t.Reporter)
+                .WithMany(u => u.ReportedTickets)
+                .HasForeignKey(t => t.ReporterId);
+            modelBuilder.Entity<Ticket>()
+                .HasMany(t => t.AssignedDevs)
+                .WithMany(u => u.AssignedInTickets);
+            modelBuilder.Entity<Ticket>()
+                .HasOne(t => t.Project)
+                .WithMany(p => p.Tickets)
+                .HasForeignKey(t => t.ProjectId);
+            modelBuilder.Entity<Ticket>()
+                .HasMany(t => t.Comments)
+                .WithOne(c => c.Ticket)
+                .HasForeignKey(c => c.TicketId);
+            modelBuilder.Entity<Project>()
+                .HasMany(p => p.Team)
+                .WithOne(u => u.AssignedProject)
+                .HasForeignKey(u => u.AssignedProjectId);
+            modelBuilder.Entity<Project>()
+                .HasOne(p => p.ProjectManager)
+                .WithOne(u => u.ManagedProject)
+                .HasForeignKey<Project>(p => p.ProjectManagerId);
+            #endregion
         }
 
     }

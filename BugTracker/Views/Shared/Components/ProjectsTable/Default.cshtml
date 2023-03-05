@@ -1,0 +1,26 @@
+﻿@using BugTracker.Core.DTO.ProjectDTO;
+<table class="table table-hover">
+    <thead>
+        <tr>
+            Name
+        </tr>
+        <tr>
+            Description
+        </tr>
+        <tr>
+            No. Of Tickets
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            @foreach (ProjectResponseDTO project in Model)
+            {
+                <td>@project.Name</td>
+                <td>@project.Description</td>
+                @*NOTE: Check if project has 0 tickets*@
+                <td>@project.Tickets?.Count()</td>
+                <td><a asp-controller="Projects" asp-action="Details" asp-route-projectId="@project.ProjectId">Details</a></td>
+            }
+        </tr>
+    </tbody>
+</table>

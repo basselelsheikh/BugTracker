@@ -1,27 +1,28 @@
 ﻿@using BugTracker.Core.DTO.ProjectDTO;
 @model IEnumerable<ProjectResponseDTO>
-<table class="table table-hover">
-    <thead>
-        <tr>
-            Name
-        </tr>
-        <tr>
-            Description
-        </tr>
-        <tr>
-            No. Of Tickets
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            @foreach (ProjectResponseDTO project in Model)
-            {
-                <td>@project.Name</td>
-                <td>@project.Description</td>
-                @*NOTE: Check if project has 0 tickets*@
-                <td>@project.Tickets?.Count()</td>
-                <td><a asp-controller="Projects" asp-action="Details" asp-route-projectId="@project.ProjectId">Details</a></td>
-            }
-        </tr>
-    </tbody>
-</table>
+<div class="row">
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="col">
+            <vc:projects-table>
+            </vc:projects-table>
+        </div>
+    }
+    @if (User.IsInRole("Developer"))
+    {
+        <div class="col">
+            <h1></h1>
+            <vc:projects-table developer-username=@User.Identity?.Name>
+            </vc:projects-table>
+        </div>
+    }
+    @if (User.IsInRole("ProjectManager"))
+    {
+        <div class="col">
+            <h1></h1>
+            <vc:projects-table pm-username=@User.Identity?.Name>
+            </vc:projects-table>
+        </div>
+    }
+
+</div>

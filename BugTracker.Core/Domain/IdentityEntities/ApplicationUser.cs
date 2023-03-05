@@ -12,15 +12,10 @@ namespace BugTracker.Core.Domain.IdentityEntities
     public class ApplicationUser : IdentityUser<int>
     {
         public string? Name { get; set; }
-
-        [InverseProperty("Reporter")]
         public ICollection<Ticket>? ReportedTickets { get; set; }
-
-        [InverseProperty("AssignedDevs")]
         public ICollection<Ticket>? AssignedInTickets { get; set; }
-       
-        public ICollection<Project>? Projects { get; set; }
-
-
+        public Project? ManagedProject { get; set; }
+        public int? AssignedProjectId { get; set; }
+        public Project? AssignedProject { get; set; }
     }
 }

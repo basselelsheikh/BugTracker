@@ -1,5 +1,7 @@
 ﻿using BugTracker.Core.Domain.IdentityEntities;
+using BugTracker.Core.DTO.ProjectDTO;
 using BugTracker.Core.DTO.TicketDTO;
+using BugTracker.Core.ServiceContracts.ProjectServicesContracts;
 using BugTracker.Core.ServiceContracts.TicketServicesContracts;
 using BugTracker.Core.Services;
 using Microsoft.AspNetCore.Identity;
@@ -13,7 +15,7 @@ namespace BugTracker.UI.Controllers
 
         private readonly ITicketAdder _ticketAdder;
         private readonly UserManager<ApplicationUser> _userManager;
-
+        private readonly IProjectGetter _projectGetter;
         public ProjectsController(IProjectGetter projectGetter, ITicketAdder ticketAdder, UserManager<ApplicationUser> userManager)
         {
             _projectGetter = projectGetter;
@@ -42,9 +44,9 @@ namespace BugTracker.UI.Controllers
         [Route("{projectID:int}")]
         public async Task<IActionResult> Details(int projectID)
         {
-            TicketResponseDTO? ticket = await _projectGetter.GetTicket(projectID);
+            ProjectResponseDTO? project = await _projectGetter.GetProject(projectID);
             CheckUserRole();
-            return View(ticket);
+            return View(project);
         }
 
         [HttpGet("{projectId:int}")]

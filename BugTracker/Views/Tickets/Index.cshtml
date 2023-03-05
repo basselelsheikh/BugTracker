@@ -1,12 +1,14 @@
 ﻿<div class="row">
     @*for everyone*@
     <div class="col" id="reported-tickets">
+        <h1>Tickets I Reported</h1>
         <vc:tickets-table username=@User.Identity?.Name>
         </vc:tickets-table>
     </div>
     @*for admins*@
     @if (ViewBag.isAdmin)
     {
+        <h1>All Tickets in System</h1>
         <div class="col" id="system-tickets">
             <vc:tickets-table>
             </vc:tickets-table>
@@ -16,9 +18,9 @@
     @if (ViewBag.isDeveloper)
     {
         <div class="col" id="assigned-tickets-to-developer">
+            <h1>Tickets Assigned to Me</h1>
             <vc:tickets-table developer-username=@User.Identity?.Name>
             </vc:tickets-table>
         </div>
     }
-    
 </div>

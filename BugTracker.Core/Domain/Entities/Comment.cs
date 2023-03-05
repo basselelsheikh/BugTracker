@@ -11,6 +11,8 @@ namespace BugTracker.Core.Domain.Entities
     public class Comment
     {
         public int CommentId { get; set; }
+        public int TicketId { get; set; }
+        public Ticket Ticket { get; set; }
         public ApplicationUser? Commenter { get; set; }
         [Required(ErrorMessage = "Comment can't be empty")]
         public string? CommentText { get; set; }

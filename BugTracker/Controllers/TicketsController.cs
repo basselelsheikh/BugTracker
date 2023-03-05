@@ -46,9 +46,7 @@ namespace BugTracker.UI.Controllers
         {
             CheckUserRole();
             return View();
-
         }
-
         [Route("{ticketId:int}")]
         public async Task<IActionResult> Details(int ticketId)
         {
@@ -56,7 +54,6 @@ namespace BugTracker.UI.Controllers
             CheckUserRole();
             return View(ticket);
         }
-
         public async Task<IActionResult> AddComment(string commentText, string username, int ticketId)
         {
             ApplicationUser commenter = await _userManager.FindByNameAsync(username);
@@ -83,14 +80,11 @@ namespace BugTracker.UI.Controllers
             _ticketUpdater.UpdateTicket(ticket);
             return RedirectToAction(nameof(Details), new { id = ticketId });
         }
-
         [HttpGet("{ticketId:int}")]
         public IActionResult Delete(int ticketId)
         {
             _ticketDeleter.DeleteTicket(ticketId);
             return RedirectToAction(nameof(Details), new { id = ticketId });
         }
-
-        
     }
 }

@@ -11,8 +11,7 @@ namespace BugTracker.UI.ViewComponents
         public TicketsTableViewComponent(ITicketGetter ticketGetter) {
             _ticketGetter = ticketGetter;
         }
-        public async Task<IViewComponentResult> InvokeAsync(
-                                            int? projectId, string? developerUsername, string? username )
+        public async Task<IViewComponentResult> InvokeAsync(int? projectId, string? developerUsername, string? username )
         {
             if(projectId is not null)
             {
@@ -23,7 +22,6 @@ namespace BugTracker.UI.ViewComponents
             {
                 IEnumerable<TicketResponseDTO>? tickets = await _ticketGetter.GetTicketsAssignedToDeveloper(developerUsername);
                 return View(tickets);
-
             }
             if(username is not null)
             {
@@ -33,12 +31,9 @@ namespace BugTracker.UI.ViewComponents
             else
             {
                 //If no condition provided, return all tickets, usually this is for admin roles only
-                IEnumerable<TicketResponseDTO>? tickets = await _ticketGetter.GetTickets(t => t.Project.ProjectId == projectId);
+                IEnumerable<TicketResponseDTO>? tickets = await _ticketGetter.GetTickets();
                 return View(tickets);
-
             }
-            
         }
-
     }
 }

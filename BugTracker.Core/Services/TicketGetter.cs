@@ -29,7 +29,7 @@ namespace BugTracker.Core.Services
 
         }
 
-        public async Task<IEnumerable<TicketResponseDTO>?> GetTickets(Expression<Func<Ticket,bool>>? predicate)
+        public async Task<IEnumerable<TicketResponseDTO>?> GetTickets(Expression<Func<Ticket,bool>>? predicate = null)
         {
             IEnumerable<Ticket>? result = await _ticketRepository.GetTickets(predicate);
             return result?.Select(ticket => _mapper.Map<TicketResponseDTO>(ticket));
