@@ -1,5 +1,5 @@
 ﻿using BugTracker.Core.Domain.IdentityEntities;
-using BugTracker.Core.DTO.AccountDTO;
+using BugTracker.UI.DTO.AccountDTO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

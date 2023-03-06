@@ -1,34 +1,56 @@
-﻿using BugTracker.Core.DTO.ProjectDTO;
-using BugTracker.Core.ServiceContracts.ProjectServicesContracts;
+﻿using BugTracker.Core.ServiceContracts.ProjectServicesContracts;
+using BugTracker.UI.DTO.ProjectDTO;
 using Microsoft.AspNetCore.Mvc;
+using BugTracker.Core.Domain.Entities;
+using AutoMapper;
 
 namespace BugTracker.UI.ViewComponents
 {
     public class ProjectsTableViewComponent : ViewComponent
     {
         private readonly IProjectGetter _ProjectGetter;
-        public ProjectsTableViewComponent(IProjectGetter ProjectGetter)
+        private readonly IMapper _mapper;
+        public ProjectsTableViewComponent(IProjectGetter ProjectGetter, IMapper mapper)
         {
             _ProjectGetter = ProjectGetter;
+            _mapper = mapper;
         }
         public async Task<IViewComponentResult> InvokeAsync(string? developerUsername, string? pmUsername)
         {
             if (pmUsername is not null)
             {
-                IEnumerable<ProjectResponseDTO>? Projects = await _ProjectGetter.GetManagedProject(pmUsername);
-                return View(Projects);
+                Project? project = await _ProjectGetter.GetManagedProject(pmUsername);
+                if (project is not null)
+                {
+                    return View(_mapper.Map<ProjectResponseDTO>(project));
+                }
+                else
+                {
+                    //NOTE: raise exception, project not found
+                }
             }
-            if (developerUsername is not null)
+            else if (developerUsername is not null)
             {
-                IEnumerable<ProjectResponseDTO>? Projects = await _ProjectGetter.GetProjectAssignedToDeveloper(developerUsername);
-                return View(Projects);
+                Project? project = await _ProjectGetter.GetProjectAssignedToDeveloper(developerUsername);
+                if (project is not null)
+                {
+                    return View(_mapper.Map<ProjectResponseDTO>(project));
+                }
+                else
+                {
+                    //NOTE: raise exception, project not found
+                }
             }
             else
             {
                 //If no condition provided, return all projects, this is for admin roles only
-                IEnumerable<ProjectResponseDTO>? Projects = await _ProjectGetter.GetProjects();
-                return View(Projects);
+                IEnumerable<Project>? projects = await _ProjectGetter.GetAllProjects();
+                if (projects is not null)
+                {
+                    return View(projects.Select(p => _mapper.Map<ProjectResponseDTO>(p)));
+                }
             }
+            return View();
         }
     }
 }

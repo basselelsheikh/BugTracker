@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BugTracker.Core.DTO.AccountDTO
+namespace BugTracker.UI.DTO.AccountDTO
 {
     public class LoginDTO
     {

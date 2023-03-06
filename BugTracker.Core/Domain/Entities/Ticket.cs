@@ -19,13 +19,13 @@ namespace BugTracker.Core.Domain.Entities
         public string? Severity { get; set; }
         public int ReporterId { get; set; }
         public ApplicationUser Reporter { get; set; }
-        public ICollection<ApplicationUser>? AssignedDevs { get; set; }
+        public ICollection<ApplicationUser> AssignedDevs { get; set; }
         public string? Type { get; set; }
         public string? Status { get; set; }
         public DateTime Reported { get; set; }
         public int ProjectId { get; set; }
         public Project Project { get; set; }
-        public ICollection<Comment>? Comments { get; set; }
+        public ICollection<Comment> Comments { get; set; }
 
 
     }

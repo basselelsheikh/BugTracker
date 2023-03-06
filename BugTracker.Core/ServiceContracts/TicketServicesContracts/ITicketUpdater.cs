@@ -1,5 +1,4 @@
 ﻿using BugTracker.Core.Domain.Entities;
-using BugTracker.Core.DTO.TicketDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +10,6 @@ namespace BugTracker.Core.ServiceContracts.TicketServicesContracts
     public interface ITicketUpdater
     {
         public Task AddCommentToTicket(int ticketId,Comment comment);
-        public Task<int> UpdateTicket(TicketUpdateDTO ticket);
+        public Task<int> UpdateTicket(Ticket ticket);
     }
 }

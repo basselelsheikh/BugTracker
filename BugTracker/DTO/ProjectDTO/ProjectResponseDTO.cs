@@ -5,16 +5,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
-namespace BugTracker.Core.DTO.ProjectDTO
+namespace BugTracker.UI.DTO.ProjectDTO
 {
-    public class ProjectEditDTO
+    public class ProjectResponseDTO
     {
-        [Required]
+        public int ProjectId { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
-        [Url]
+        public IEnumerable<ApplicationUser>? Team { get; set; }
+        public IEnumerable<Ticket>? Tickets { get; set; }
         public string? RepoLink { get; set; }
+        public ApplicationUser? ProjectManager { get; set; }
     }
 }

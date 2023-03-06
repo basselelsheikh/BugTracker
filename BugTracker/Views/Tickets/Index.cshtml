@@ -6,7 +6,7 @@
         </vc:tickets-table>
     </div>
     @*for admins*@
-    @if (ViewBag.isAdmin)
+    @if (User.IsInRole("Admin"))
     {
         <h1>All Tickets in System</h1>
         <div class="col" id="system-tickets">
@@ -15,7 +15,7 @@
         </div>
     }
     @*for developers*@
-    @if (ViewBag.isDeveloper)
+    @if (User.IsInRole("Developer"))
     {
         <div class="col" id="assigned-tickets-to-developer">
             <h1>Tickets Assigned to Me</h1>

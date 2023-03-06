@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BugTracker.Core.Domain.Entities;
 using BugTracker.Core.Domain.IdentityEntities;
-using BugTracker.Core.DTO.ProjectDTO;
 using BugTracker.Core.RepositoryContracts;
 using BugTracker.Infrastructure.DbContext;
 using Microsoft.AspNetCore.Identity;
@@ -26,14 +25,15 @@ namespace BugTracker.Infrastructure.EfCoreRepositories
             _userManager = userManager;
             _mapper = mapper;
         }
+
+        public async Task<IEnumerable<Project>?> GetAllProjects()
+        {
+            return await _context.Projects.Include("Team").Include("Tickets").Include("ProjectManager").ToListAsync();
+        }
         public async Task<Project?> GetProject(int projectID)
         {
-            return await _context.Projects.Include("Team").Include("Tickets").FirstOrDefaultAsync(t => t.ProjectId == projectID);
+            return await _context.Projects.Include("Team").Include("Tickets").Include("ProjectManager").FirstOrDefaultAsync(t => t.ProjectId == projectID);
         }
 
-        public Task<IEnumerable<Project>?> GetProjects(Expression<Func<Project, bool>>? predicate)
-        {
-
-        }
     }
 }

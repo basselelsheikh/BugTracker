@@ -10,7 +10,7 @@ namespace BugTracker.Core.RepositoryContracts
 {
     public interface IProjectRepository
     {
-        public Task<IEnumerable<Project>?> GetProjects(Expression<Func<Project, bool>>? predicate);
+        public Task<IEnumerable<Project>?> GetAllProjects();
         public Task<Project?> GetProject(int projectID);
     }
 }

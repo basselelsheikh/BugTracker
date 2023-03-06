@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-namespace BugTracker.Core.DTO.ProjectDTO
+namespace BugTracker.UI.DTO.ProjectDTO
 {
     public class ProjectAddDTO
     {

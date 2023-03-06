@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BugTracker.Core.Domain.Entities;
-using BugTracker.Core.DTO.TicketDTO;
 using BugTracker.Core.RepositoryContracts;
 using BugTracker.Core.ServiceContracts.TicketServicesContracts;
 using System;
@@ -20,9 +19,8 @@ namespace BugTracker.Core.Services
             _ticketRepository = ticketRepository;
             _mapper = mapper;
         }
-        public Task<bool> AddTicket(TicketAddDTO ticketAddDTO)
+        public Task<bool> AddTicket(Ticket ticket)
         {
-            Ticket ticket = _mapper.Map<Ticket>(ticketAddDTO);
             return _ticketRepository.AddTicket(ticket);
         }
     }

@@ -1,5 +1,5 @@
-﻿@using BugTracker.Core.DTO.TicketDTO;
-@using BugTracker.Core.Enums
+﻿@using BugTracker.UI.DTO.TicketDTO;
+@using BugTracker.Core.Enums;
 @model TicketResponseDTO
 
 <form asp-controller="Tickets" asp-action="Edit">
@@ -13,8 +13,23 @@
         <select asp-for="Severity" asp-items="Html.GetEnumSelectList<SeverityOptions>()" class="form-control"></select>
     </div>
     <div class="mb-3">
-        @*Only project managers and admins can assign developers*@
-        <select asp-for="AssignedDevs" asp-items="ViewBag.Developers" class="form-control" disabled="@ViewBag.isDeveloper"></select>
+        @if (!User.IsInRole("Developer"))
+        {
+            <div class="mb-3">
+                <label class="form-label">Assigned Developers</label>
+                @for (int i = 0; i < Model.AssignedDevs.Count(); i++)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" asp-for="AssignedDevs[i].IsChecked">
+                        <label class="form-check-label" asp-for="AssignedDevs[i].IsChecked">
+                            @Model.AssignedDevs[i].DeveloperName
+                        </label>
+                        @*<input type="hidden" asp-for="AssignedDevs[i].DeveloperName" value="@Model.AssignedDevs[i].DeveloperName">
+                <input type="hidden" asp-for="AssignedDevs[i].DeveloperId" value="@Model.AssignedDevs[i].DeveloperId">*@
+                    </div>
+                }
+            </div>
+        }
     </div>
     <div class="mb-3">
         <select asp-for="Type" asp-items="Html.GetEnumSelectList<TicketTypeOptions>()" class="form-control"></select>

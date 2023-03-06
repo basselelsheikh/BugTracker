@@ -1,6 +1,4 @@
 ﻿using BugTracker.Core.Domain.Entities;
-using BugTracker.Core.DTO.ProjectDTO;
-using BugTracker.Core.DTO.TicketDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +10,9 @@ namespace BugTracker.Core.ServiceContracts.ProjectServicesContracts
 {
     public interface IProjectGetter
     {
-        public Task<ProjectResponseDTO?> GetProject(int projectId);
-        public Task<IEnumerable<ProjectResponseDTO>?> GetProject(Expression<Func<Project, bool>>? predicate);
+        public Task<Project?> GetProject(int projectId);
+        public Task<IEnumerable<Project>?> GetAllProjects(); 
+        public Task<Project?> GetManagedProject(string pmUsername);
+        public Task<Project?> GetProjectAssignedToDeveloper(string developerUsername);
     }
 }

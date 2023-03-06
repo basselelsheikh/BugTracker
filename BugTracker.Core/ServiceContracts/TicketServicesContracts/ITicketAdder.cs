@@ -1,4 +1,4 @@
-﻿using BugTracker.Core.DTO.TicketDTO;
+﻿using BugTracker.Core.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,6 @@ namespace BugTracker.Core.ServiceContracts.TicketServicesContracts
 {
     public interface ITicketAdder
     {
-        public Task<bool> AddTicket(TicketAddDTO ticketAddDTO);
-        
+        public Task<bool> AddTicket(Ticket ticket);
     }
 }

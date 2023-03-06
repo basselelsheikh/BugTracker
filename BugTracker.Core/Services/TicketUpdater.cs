@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BugTracker.Core.Domain.Entities;
-using BugTracker.Core.DTO.TicketDTO;
 using BugTracker.Core.RepositoryContracts;
 using BugTracker.Core.ServiceContracts.TicketServicesContracts;
 using System;
@@ -26,11 +25,9 @@ namespace BugTracker.Core.Services
             await _ticketRepository.AddCommentToTicket(ticketId, comment);
         }
 
-        public async Task<int> UpdateTicket(TicketUpdateDTO ticket)
+        public async Task<int> UpdateTicket(Ticket ticket)
         {
-            Ticket ticketUpdated = _mapper.Map<Ticket>(ticket);
-           return await _ticketRepository.UpdateTicket(ticketUpdated);
+           return await _ticketRepository.UpdateTicket(ticket);
         }
-
     }
 }

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BugTracker.Core.Domain.Entities;
-using BugTracker.Core.DTO.TicketDTO;
 using BugTracker.Core.RepositoryContracts;
 using BugTracker.Core.ServiceContracts.TicketServicesContracts;
 using System;
@@ -14,38 +13,38 @@ namespace BugTracker.Core.Services
 {
     public class TicketGetter : ITicketGetter
     {
-        private readonly ITicketRepository _ticketRepository;
+        private readonly ITicketRepository _TicketRepository;
         private readonly IMapper _mapper;
-        public TicketGetter(ITicketRepository ticketRepository, IMapper mapper)
+        public TicketGetter(ITicketRepository TicketRepository, IMapper mapper)
         {
-            _ticketRepository = ticketRepository;
+            _TicketRepository = TicketRepository;
             _mapper = mapper;
         }
 
-        public async Task<TicketResponseDTO?> GetTicket(int ID)
+        public async Task<Ticket?> GetTicket(int ID)
         {
-            Ticket? ticket = await _ticketRepository.GetTicket(ID);
-            return _mapper.Map<TicketResponseDTO>(ticket);
+            Ticket? Ticket = await _TicketRepository.GetTicket(ID);
+            return _mapper.Map<Ticket>(Ticket);
 
         }
 
-        public async Task<IEnumerable<TicketResponseDTO>?> GetTickets(Expression<Func<Ticket,bool>>? predicate = null)
+        public async Task<IEnumerable<Ticket>> GetTickets(Expression<Func<Ticket,bool>>? predicate = null)
         {
-            IEnumerable<Ticket>? result = await _ticketRepository.GetTickets(predicate);
-            return result?.Select(ticket => _mapper.Map<TicketResponseDTO>(ticket));
+            IEnumerable<Ticket> result = await _TicketRepository.GetTickets(predicate);
+            return result.Select(Ticket => _mapper.Map<Ticket>(Ticket));
 
         }
 
-        public async Task<IEnumerable<TicketResponseDTO>?> GetTicketsAssignedToDeveloper(string developerUsername)
+        public async Task<IEnumerable<Ticket>> GetTicketsAssignedToDeveloper(string developerUsername)
         {
-            IEnumerable<Ticket>? result = await _ticketRepository.GetTicketsAssignedToDeveloper(developerUsername);
-            return result?.Select(ticket => _mapper.Map<TicketResponseDTO>(ticket));
+            IEnumerable<Ticket> result = await _TicketRepository.GetTicketsAssignedToDeveloper(developerUsername);
+            return result.Select(Ticket => _mapper.Map<Ticket>(Ticket));
         }
 
-        public async Task<IEnumerable<TicketResponseDTO>?> GetUserReportedTickets(string username)
+        public async Task<IEnumerable<Ticket>> GetUserReportedTickets(string username)
         {
-            IEnumerable<Ticket>? result = await _ticketRepository.GetUserReportedTickets(username);
-            return result?.Select(ticket => _mapper.Map<TicketResponseDTO>(ticket));
+            IEnumerable<Ticket> result = await _TicketRepository.GetUserReportedTickets(username);
+            return result.Select(Ticket => _mapper.Map<Ticket>(Ticket));
         }
     }
 }

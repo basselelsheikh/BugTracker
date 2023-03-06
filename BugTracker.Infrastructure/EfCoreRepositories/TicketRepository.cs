@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BugTracker.Core.Domain.IdentityEntities;
 using AutoMapper;
+using System.ComponentModel;
 
 namespace BugTracker.Infrastructure.EfCoreRepositories
 {
@@ -25,7 +26,7 @@ namespace BugTracker.Infrastructure.EfCoreRepositories
             _userManager = userManager;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<Ticket>?> GetTickets(Expression<Func<Ticket, bool>>? predicate)
+        public async Task<IEnumerable<Ticket>> GetTickets(Expression<Func<Ticket, bool>>? predicate)
         {
             //if condition, get tickets by condition
             if (predicate is not null)
@@ -40,13 +41,13 @@ namespace BugTracker.Infrastructure.EfCoreRepositories
             return await _context.Tickets.Include("AssignedDevs").Include("Project").Include("Reporter").Include("Comments").FirstOrDefaultAsync(t => t.TicketId == id);
         }
 
-        public async Task<IEnumerable<Ticket>?> GetTicketsAssignedToDeveloper(string developerUsername)
+        public async Task<IEnumerable<Ticket>> GetTicketsAssignedToDeveloper(string developerUsername)
         {
             ApplicationUser user = await _userManager.FindByNameAsync(developerUsername);
-            return user.AssignedInTickets; ;
+            return user.AssignedInTickets;
         }
 
-        public async Task<IEnumerable<Ticket>?> GetUserReportedTickets(string username)
+        public async Task<IEnumerable<Ticket>> GetUserReportedTickets(string username)
         {
             ApplicationUser user = await _userManager.FindByNameAsync(username);
             return user.ReportedTickets;
@@ -54,9 +55,17 @@ namespace BugTracker.Infrastructure.EfCoreRepositories
 
         public async Task AddCommentToTicket(int ticketId, Comment comment)
         {
-            Ticket? ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.TicketId == ticketId);
-            ticket?.Comments?.Add(comment);
-            _context.SaveChanges();
+            Ticket? ticket = await _context.Tickets.Include("Comments").FirstOrDefaultAsync(t => t.TicketId == ticketId);
+            if (ticket is not null)
+            {
+                ticket.Comments.Add(comment);
+                _context.SaveChanges();
+            }
+            else
+            {
+                //NOTE: raise exception
+            }
+
         }
 
         public async Task<int> UpdateTicket(Ticket ticket)
@@ -65,10 +74,13 @@ namespace BugTracker.Infrastructure.EfCoreRepositories
             if (ticketToUpdate is not null)
             {
                 _mapper.Map<Ticket, Ticket>(ticket, ticketToUpdate);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return ticketToUpdate.TicketId;
             }
-            return ticket.TicketId;
+            else
+            {
+                //NOTE: raise exception
+            }
         }
 
         public async Task<bool> DeleteTicket(int ticketId)

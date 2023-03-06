@@ -1,10 +1,12 @@
-﻿using BugTracker.Core.Domain.Entities;
+﻿using AutoMapper;
+using BugTracker.Core.Domain.Entities;
 using BugTracker.Core.Domain.IdentityEntities;
-using BugTracker.Core.DTO.TicketDTO;
 using BugTracker.Core.ServiceContracts.TicketServicesContracts;
+using BugTracker.UI.DTO.TicketDTO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -18,66 +20,99 @@ namespace BugTracker.UI.Controllers
         private readonly ITicketGetter _ticketGetter;
         private readonly ITicketUpdater _ticketUpdater;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IMapper _mapper;
 
-        public TicketsController(ITicketAdder ticketAdder, ITicketDeleter ticketDeleter, ITicketGetter ticketGetter, ITicketUpdater ticketUpdater, UserManager<ApplicationUser> userManager)
+        public TicketsController(ITicketAdder ticketAdder, ITicketDeleter ticketDeleter, ITicketGetter ticketGetter, ITicketUpdater ticketUpdater, UserManager<ApplicationUser> userManager, IMapper mapper)
         {
             _ticketAdder = ticketAdder;
             _ticketDeleter = ticketDeleter;
             _ticketGetter = ticketGetter;
             _ticketUpdater = ticketUpdater;
             _userManager = userManager;
+            _mapper = mapper;
         }
-        public void CheckUserRole()
+
+        public IActionResult Index()
         {
-            if (User.IsInRole("Admin"))
-            {
-                ViewBag.isAdmin = true;
-            }
-            else if (User.IsInRole("Developer"))
-            {
-                ViewBag.isDeveloper = true;
-            }
-            else if (User.IsInRole("ProjectManager"))
-            {
-                ViewBag.isProjectManager = true;
-            }
-        }
-        public IActionResult Index(string username)
-        {
-            CheckUserRole();
             return View();
         }
+
         [Route("{ticketId:int}")]
         public async Task<IActionResult> Details(int ticketId)
         {
-            TicketResponseDTO? ticket = await _ticketGetter.GetTicket(ticketId);
-            CheckUserRole();
-            return View(ticket);
+            Ticket? ticket = await _ticketGetter.GetTicket(ticketId);
+            if (ticket is not null)
+            {
+                return View(_mapper.Map<TicketResponseDTO>(ticket));
+
+            }
+            else
+            {
+                //NOTE: Raise Exception: Database error: Can't retrieve ticket
+            }
         }
         public async Task<IActionResult> AddComment(string commentText, string username, int ticketId)
         {
             ApplicationUser commenter = await _userManager.FindByNameAsync(username);
-            Comment comment = new Comment() { Commenter = commenter, CommentText = commentText };
+            Comment comment = new() { Commenter = commenter, CommentText = commentText };
             await _ticketUpdater.AddCommentToTicket(ticketId, comment);
             return RedirectToAction(nameof(Details), new { id = ticketId });
         }
         [HttpGet("{ticketId:int}")]
         public async Task<IActionResult> Edit(int ticketId)
         {
-            TicketResponseDTO? ticket = await _ticketGetter.GetTicket(ticketId);
-            ViewBag.Developers = _userManager.GetUsersInRoleAsync("Developer").Result.Select(dev => new SelectListItem()
+            Ticket? ticket = await _ticketGetter.GetTicket(ticketId);
+            if (ticket is not null)
             {
-                Text = dev.Name,
-                Value = dev.ToString()
-            });
-            CheckUserRole();
-            return View(ticket);
+                TicketUpdateDTO model = _mapper.Map<TicketUpdateDTO>(ticket);
+                List<DeveloperCheckboxItem> _checkboxItems = new();
+                List<ApplicationUser> developersInProject = await 
+                    _userManager.Users.Where(u => u.AssignedProjectId == ticket.ProjectId).ToListAsync();
+                foreach (ApplicationUser developer in developersInProject)
+                {
+                    if (ticket.AssignedDevs.Contains(developer))
+                    {
+                        _checkboxItems.Add(new DeveloperCheckboxItem()
+                        {
+                            DeveloperName = developer.Name,
+                            DeveloperId = developer.Id,
+                            IsChecked = true
+                        });
+                    }
+                    else
+                    {
+                        _checkboxItems.Add(new DeveloperCheckboxItem()
+                        {
+                            DeveloperName = developer.Name,
+                            DeveloperId = developer.Id,
+                            IsChecked = false
+                        });
+                    }
+                }
+                model.AssignedDevs = _checkboxItems;
+                return View(model);
+            }
+            else
+            {
+                //NOTE: raise exception
+            }
+
         }
         [HttpPost("{ticketId:int}")]
-        public IActionResult Edit(TicketUpdateDTO ticket, int ticketId)
+        public async Task<IActionResult> Edit(TicketUpdateDTO model, int ticketId)
         {
-            if (!ModelState.IsValid) { return View(ticket); }
-            _ticketUpdater.UpdateTicket(ticket);
+            if (!ModelState.IsValid) { return View(model); }
+            Ticket ticket = _mapper.Map<Ticket>(model);
+            ticket.AssignedDevs = new List<ApplicationUser>();
+            foreach (DeveloperCheckboxItem temp in model.AssignedDevs)
+            {
+                if (temp.IsChecked)
+                {
+                    ApplicationUser dev = await _userManager.FindByIdAsync(temp.DeveloperId.ToString());
+                    ticket.AssignedDevs.Add(dev);
+                }
+            }
+            await _ticketUpdater.UpdateTicket(_mapper.Map<Ticket>(ticket));
             return RedirectToAction(nameof(Details), new { id = ticketId });
         }
         [HttpGet("{ticketId:int}")]
