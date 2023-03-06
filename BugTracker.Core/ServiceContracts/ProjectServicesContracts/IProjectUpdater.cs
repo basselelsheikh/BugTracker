@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BugTracker.Core.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace BugTracker.Core.ServiceContracts.ProjectServicesContracts
 {
     public interface IProjectUpdater
     {
+        public Task<int> UpdateProject(Project project);
     }
 }

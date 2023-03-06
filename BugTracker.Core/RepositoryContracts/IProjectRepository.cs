@@ -12,5 +12,8 @@ namespace BugTracker.Core.RepositoryContracts
     {
         public Task<IEnumerable<Project>?> GetAllProjects();
         public Task<Project?> GetProject(int projectID);
+        public Task<bool> DeleteProject(int projectId);
+        public Task<int> UpdateProject(Project project);
+
     }
 }

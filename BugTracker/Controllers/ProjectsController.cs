@@ -3,6 +3,7 @@ using BugTracker.Core.Domain.Entities;
 using BugTracker.Core.Domain.IdentityEntities;
 using BugTracker.Core.ServiceContracts.ProjectServicesContracts;
 using BugTracker.Core.ServiceContracts.TicketServicesContracts;
+using BugTracker.Core.Services;
 using BugTracker.UI.DTO.TicketDTO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -86,6 +87,13 @@ namespace BugTracker.UI.Controllers
             }
             await _ticketAdder.AddTicket(ticket);
             return RedirectToAction(nameof(Details), new { id = projectId });
+        }
+
+        [HttpGet("{projectId:int}")]
+        public IActionResult Delete(int projectId)
+        {
+            _projectDeleter.DeleteProject(projectId);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

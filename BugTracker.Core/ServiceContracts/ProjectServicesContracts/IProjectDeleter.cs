@@ -8,5 +8,6 @@ namespace BugTracker.Core.ServiceContracts.ProjectServicesContracts
 {
     public interface IProjectDeleter
     {
+        public Task<bool> DeleteProject(int projectId);
     }
 }

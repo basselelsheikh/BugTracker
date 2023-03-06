@@ -1,10 +1,10 @@
-﻿@using BugTracker.UI.DTO.TicketDTO;
+﻿@using BugTracker.UI.DTO.ProjectDTO;
 @using BugTracker.Core.Enums;
-@model TicketUpdateDTO
+@model ProjectUpdateDTO
 
 <form asp-controller="Tickets" asp-action="Edit">
     <div class="mb-3">
-        <label asp-for="Title"  class="form-label">Title</label>
+        <label asp-for="Title" class="form-label">Title</label>
         <input type="text" asp-for="Title" class="form-control"></>
     </div>
     <div class="mb-3">
@@ -42,7 +42,7 @@
         <label asp-for="Status" class="form-label">Status</label>
         <select asp-for="Status" asp-items="Html.GetEnumSelectList<StatusOptions>()" class="form-control"></select>
     </div>
-    <input type="hidden" asp-for="TicketId" value=@Model.TicketId/>
+    <input type="hidden" asp-for="TicketId" value=@Model.TicketId />
     <div class="mb-3">
         <button type="submit" class="btn btn-primary">Update Ticket</button>
     </div>

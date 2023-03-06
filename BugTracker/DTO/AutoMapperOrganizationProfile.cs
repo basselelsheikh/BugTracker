@@ -22,6 +22,8 @@ namespace BugTracker.Core.Domain
             CreateMap<Project, ProjectResponseDTO>();
             CreateMap<Ticket, TicketUpdateDTO>()
                 .ForMember(t => t.AssignedDevs, opt => opt.Ignore());
+            CreateMap<Ticket, Ticket>();
+            CreateMap<Project, Project>();
 
         }
     }
