@@ -48,7 +48,7 @@ namespace BugTracker.UI.Controllers
             }
             else
             {
-                //NOTE: Raise Exception: Database error: Can't retrieve ticket
+                return new NotFoundResult();
             }
         }
         public async Task<IActionResult> AddComment(string commentText, string username, int ticketId)
@@ -94,7 +94,7 @@ namespace BugTracker.UI.Controllers
             }
             else
             {
-                //NOTE: raise exception
+                return new NotFoundResult();
             }
 
         }
@@ -112,7 +112,7 @@ namespace BugTracker.UI.Controllers
                     ticket.AssignedDevs.Add(dev);
                 }
             }
-            await _ticketUpdater.UpdateTicket(_mapper.Map<Ticket>(ticket));
+            await _ticketUpdater.UpdateTicket(ticket);
             return RedirectToAction(nameof(Details), new { id = ticketId });
         }
         [HttpGet("{ticketId:int}")]

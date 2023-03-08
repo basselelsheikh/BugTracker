@@ -16,7 +16,7 @@ namespace BugTracker.Core.Domain.Entities
         public int ProjectId { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
-        public ICollection<ApplicationUser>? Team { get; set; }
+        public ICollection<ApplicationUser> Team { get; set; }
         public ICollection<Ticket>? Tickets { get; set; }
         public string? RepoLink { get; set; }
         public int ProjectManagerId { get; set; }

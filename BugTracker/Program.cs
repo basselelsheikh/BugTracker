@@ -22,6 +22,12 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
 builder.Services.AddAutoMapper(typeof(AutoMapperOrganizationProfile));
 #endregion
 var app = builder.Build();
+#region Error Handling
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+}
+#endregion
 app.UseStaticFiles(); 
 app.UseAuthentication();
 app.MapControllers();   

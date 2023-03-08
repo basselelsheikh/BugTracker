@@ -16,15 +16,15 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
             @foreach (TicketResponseDTO ticket in Model)
             {
+            <tr>
                 <td>@ticket.Title</td>
                 <td>@ticket.Severity</td>
                 <td>@ticket.Type</td>
                 <td>@ticket.Status</td>
                 <td><a asp-controller="Tickets" asp-action="Details" asp-route-ticketId="@ticket.TicketId">Details</a></td>
+            </tr>
             }
-        </tr>
     </tbody>
 </table>

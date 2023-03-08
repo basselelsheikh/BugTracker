@@ -50,5 +50,7 @@ namespace BugTracker.UI.Controllers
             return RedirectToAction(nameof(Login));
         }
 
+        public async Task<IActionResult> 
+
     }
 }

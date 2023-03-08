@@ -5,6 +5,7 @@ using BugTracker.Core.ServiceContracts.ProjectServicesContracts;
 using BugTracker.Core.ServiceContracts.TicketServicesContracts;
 using BugTracker.Core.Services;
 using BugTracker.UI.DTO.TicketDTO;
+using BugTracker.UI.DTO.ProjectDTO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -18,14 +19,18 @@ namespace BugTracker.UI.Controllers
     public class ProjectsController : Controller
     {
 
-        private readonly ITicketAdder _ticketAdder;
+        private readonly ITicketAdder _projectAdder;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IProjectGetter _projectGetter;
+        private readonly IProjectDeleter _projectDeleter;
+        private readonly IProjectUpdater _projectUpdater;
         private readonly IMapper _mapper;
-        public ProjectsController(IProjectGetter projectGetter, ITicketAdder ticketAdder, UserManager<ApplicationUser> userManager, IMapper mapper)
+        public ProjectsController(IProjectUpdater projectUpdater, IProjectDeleter projectDeleter, IProjectGetter projectGetter, ITicketAdder projectAdder, UserManager<ApplicationUser> userManager, IMapper mapper)
         {
             _projectGetter = projectGetter;
-            _ticketAdder = ticketAdder;
+            _projectAdder = projectAdder;
+            _projectDeleter = projectDeleter;
+            _projectUpdater = projectUpdater;
             _userManager = userManager;
             _mapper = mapper;
         }
@@ -44,7 +49,7 @@ namespace BugTracker.UI.Controllers
             }
             else
             {
-                //NOTE: Raise Exception: Database error: Can't retrieve project
+                return new NotFoundResult();
             }
         }
 
@@ -75,25 +80,86 @@ namespace BugTracker.UI.Controllers
             {
                 return View(model);
             }
-            Ticket ticket = _mapper.Map<Ticket>(model);
-            ticket.AssignedDevs = new List<ApplicationUser>();
+            Ticket project = _mapper.Map<Ticket>(model);
+            project.AssignedDevs = new List<ApplicationUser>();
             foreach (DeveloperCheckboxItem temp in model.AssignedDevs)
             {
                 if(temp.IsChecked)
                 {
                     ApplicationUser dev = await _userManager.FindByIdAsync(temp.DeveloperId.ToString());
-                    ticket.AssignedDevs.Add(dev);
+                    project.AssignedDevs.Add(dev);
                 }
             }
-            await _ticketAdder.AddTicket(ticket);
+            await _projectAdder.AddTicket(project);
             return RedirectToAction(nameof(Details), new { id = projectId });
         }
 
         [HttpGet("{projectId:int}")]
-        public IActionResult Delete(int projectId)
+        public async Task<IActionResult> Delete(int projectId)
         {
-            _projectDeleter.DeleteProject(projectId);
+            await _projectDeleter.DeleteProject(projectId);
             return RedirectToAction(nameof(Index));
+        }
+
+
+        [HttpGet("{projectId:int}")]
+        public async Task<IActionResult> Edit(int projectId)
+        {
+            Project? project = await _projectGetter.GetProject(projectId);
+            if (project is not null)
+            {
+                ProjectUpdateDTO model = _mapper.Map<ProjectUpdateDTO>(project);
+                List<DeveloperCheckboxItem> _checkboxItems = new();
+                List<ApplicationUser> availableDevs = await
+                    _userManager.Users.Where(u => u.AssignedProjectId == null).ToListAsync();
+                foreach (ApplicationUser developer in availableDevs)
+                {
+                    if (project.Team.Contains(developer))
+                    {
+                        _checkboxItems.Add(new DeveloperCheckboxItem()
+                        {
+                            DeveloperName = developer.Name,
+                            DeveloperId = developer.Id,
+                            IsChecked = true
+                        });
+                    }
+                    else
+                    {
+                        _checkboxItems.Add(new DeveloperCheckboxItem()
+                        {
+                            DeveloperName = developer.Name,
+                            DeveloperId = developer.Id,
+                            IsChecked = false
+                        });
+                    }
+                }
+                model.Team = _checkboxItems;
+                return View(model);
+            }
+            else
+            {
+                return new NotFoundResult();
+            }
+
+        }
+        [HttpPost("{projectId:int}")]
+        public async Task<IActionResult> Edit(ProjectUpdateDTO model, int projectId)
+        {
+            if (!ModelState.IsValid) { 
+                return View(model); 
+            }
+            Project project = _mapper.Map<Project>(model);
+            project.Team = new List<ApplicationUser>();
+            foreach (DeveloperCheckboxItem temp in model.Team)
+            {
+                if (temp.IsChecked)
+                {
+                    ApplicationUser dev = await _userManager.FindByIdAsync(temp.DeveloperId.ToString());
+                    project.Team.Add(dev);
+                }
+            }
+            await _projectUpdater.UpdateProject(project);
+            return RedirectToAction(nameof(Details), new { id = projectId });
         }
     }
 }

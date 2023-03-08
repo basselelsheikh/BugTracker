@@ -79,7 +79,7 @@ namespace BugTracker.Infrastructure.EfCoreRepositories
             }
             else
             {
-                //NOTE: raise exception
+                throw new ArgumentNullException(nameof(ticket));
             }
         }
 

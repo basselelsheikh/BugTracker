@@ -2,49 +2,38 @@
 @using BugTracker.Core.Enums;
 @model ProjectUpdateDTO
 
-<form asp-controller="Tickets" asp-action="Edit">
+<form asp-controller="Projects" asp-action="Edit">
     <div class="mb-3">
-        <label asp-for="Title" class="form-label">Title</label>
-        <input type="text" asp-for="Title" class="form-control"></>
+        <label asp-for="Name" class="form-label">Name</label>
+        <input type="text" asp-for="Name" class="form-control"></>
     </div>
     <div class="mb-3">
         <label asp-for="Description" class="form-label">Description</label>
         <textarea asp-for="Description" class="form-control" rows="3"></textarea>
     </div>
-    <div class="mb-3">
-        <label asp-for="Description" class="form-label">Severity</label>
-        <select asp-for="Severity" asp-items="Html.GetEnumSelectList<SeverityOptions>()" class="form-control"></select>
-    </div>
-    <div class="mb-3">
         @if (!User.IsInRole("Developer"))
         {
             <div class="mb-3">
-                <label class="form-label">Assigned Developers</label>
-                @for (int i = 0; i < Model.AssignedDevs.Count(); i++)
+                <label class="form-label">Team Members</label>
+                @for (int i = 0; i < Model.Team.Count(); i++)
                 {
                     <div class="form-check">
-                        <input class="form-check-input" asp-for="AssignedDevs[i].IsChecked">
-                        <label class="form-check-label" asp-for="AssignedDevs[i].IsChecked">
-                            @Model.AssignedDevs[i].DeveloperName
+                        <input class="form-check-input" asp-for="Team[i].IsChecked">
+                        <label class="form-check-label" asp-for="Team[i].IsChecked">
+                            @Model.Team[i].DeveloperName
                         </label>
-                        @*<input type="hidden" asp-for="AssignedDevs[i].DeveloperName" value="@Model.AssignedDevs[i].DeveloperName">
-                <input type="hidden" asp-for="AssignedDevs[i].DeveloperId" value="@Model.AssignedDevs[i].DeveloperId">*@
+                        @*<input type="hidden" asp-for="Team[i].DeveloperName" value="@Model.Team[i].DeveloperName">
+                <input type="hidden" asp-for="Team[i].DeveloperId" value="@Model.Team[i].DeveloperId">*@
                     </div>
                 }
             </div>
         }
-    </div>
     <div class="mb-3">
-        <label asp-for="Type" class="form-label">Type</label>
-        <select asp-for="Type" asp-items="Html.GetEnumSelectList<TicketTypeOptions>()" class="form-control"></select>
+        <label asp-for="RepoLink" class="form-label">Repository Link</label>
+        <input type="text" asp-for="RepoLink" class="form-control">
     </div>
+    <input type="hidden" asp-for="ProjectId" value=@Model.ProjectId/>
     <div class="mb-3">
-        <label asp-for="Status" class="form-label">Status</label>
-        <select asp-for="Status" asp-items="Html.GetEnumSelectList<StatusOptions>()" class="form-control"></select>
+        <button type="submit" class="btn btn-primary">Update Project</button>
     </div>
-    <input type="hidden" asp-for="TicketId" value=@Model.TicketId />
-    <div class="mb-3">
-        <button type="submit" class="btn btn-primary">Update Ticket</button>
-    </div>
-
 </form>

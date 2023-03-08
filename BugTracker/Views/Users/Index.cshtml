@@ -1,1 +1,48 @@
-﻿
+﻿@using BugTracker.UI.DTO.UserDTO;
+@model IEnumerable<UserResponseDTO>
+@{
+    ViewBag.Title = "Users - BugTracker";
+}
+<div class="table-responsive">
+    <table class="table table-hover"
+           data-toggle="table"
+           data-url="data1.json"
+           data-pagination="true"
+           data-search="true">
+        <thead>
+            <tr>
+                Name
+            </tr>
+            <tr>
+                Role
+            </tr>
+            <tr>
+                Email
+            </tr>
+            <tr>
+                Phone
+            </tr>
+            <tr>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (UserResponseDTO user in Model)
+            {
+                <tr>
+                    <td>@user.Name</td>
+                    <td>@user.Role</td>
+                    <td>@user.Email</td>
+                    <td>@user.PhoneNumber</td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <a asp-controller="Users" asp-action="Details" asp-route="@user.UserName" class="btn btn-outline-primary">Details</a>
+                            <a asp-controller="Users" asp-action="Edit" asp-route="@user.UserName" class="btn btn-outline-primary">Edit</a>
+                            <a asp-controller="Users" asp-action="Delete" asp-route="@user.UserName" class="btn btn-outline-danger">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<a class="btn btn-primary" asp-controller="Users" asp-action="Add" role="button">Add a User</a>

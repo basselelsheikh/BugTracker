@@ -12,15 +12,15 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
             @foreach (ProjectResponseDTO project in Model)
             {
+            <tr>
                 <td>@project.Name</td>
                 <td>@project.Description</td>
                 @*NOTE: Check if project has 0 tickets*@
                 <td>@project.Tickets?.Count()</td>
                 <td><a asp-controller="Projects" asp-action="Details" asp-route-projectId="@project.ProjectId">Details</a></td>
+            </tr>
             }
-        </tr>
     </tbody>
 </table>

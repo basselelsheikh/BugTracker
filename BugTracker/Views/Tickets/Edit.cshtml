@@ -15,7 +15,6 @@
         <label asp-for="Description" class="form-label">Severity</label>
         <select asp-for="Severity" asp-items="Html.GetEnumSelectList<SeverityOptions>()" class="form-control"></select>
     </div>
-    <div class="mb-3">
         @if (!User.IsInRole("Developer"))
         {
             <div class="mb-3">
@@ -33,7 +32,7 @@
                 }
             </div>
         }
-    </div>
+        </div>
     <div class="mb-3">
         <label asp-for="Type" class="form-label">Type</label>
         <select asp-for="Type" asp-items="Html.GetEnumSelectList<TicketTypeOptions>()" class="form-control"></select>
