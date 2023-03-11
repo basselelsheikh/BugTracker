@@ -17,5 +17,8 @@ namespace BugTracker.Core.Domain.IdentityEntities
         public Project? ManagedProject { get; set; }
         public int? AssignedProjectId { get; set; }
         public Project? AssignedProject { get; set; }
+        public Guid TeamId { get; set; }
+        public Team Team { get; set; }
+
     }
 }

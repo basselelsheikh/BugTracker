@@ -16,6 +16,7 @@ namespace BugTracker.Infrastructure.DbContext
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Ticket> Tickets { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
+        public virtual DbSet<Team> Teams { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
@@ -51,6 +52,10 @@ namespace BugTracker.Infrastructure.DbContext
                 .HasOne(p => p.ProjectManager)
                 .WithOne(u => u.ManagedProject)
                 .HasForeignKey<Project>(p => p.ProjectManagerId);
+            modelBuilder.Entity<Team>()
+                .HasMany(t => t.Members)
+                .WithOne(u => u.Team)
+                .HasForeignKey(u=> u.TeamId);
             #endregion
         }
 

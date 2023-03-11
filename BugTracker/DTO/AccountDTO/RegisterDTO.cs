@@ -19,6 +19,7 @@ namespace BugTracker.UI.DTO.AccountDTO
         [Compare("Password", ErrorMessage = "Passwords do not match")]
         public string ConfirmPassword { get; set; }
         [DataType(DataType.PhoneNumber)]
+        [Required(ErrorMessage = "Phone number can't be blank")]
         public string PhoneNumber { get; set; }
         public Roles Role { get; set; }
     }

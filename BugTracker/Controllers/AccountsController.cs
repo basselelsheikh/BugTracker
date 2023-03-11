@@ -50,7 +50,37 @@ namespace BugTracker.UI.Controllers
             return RedirectToAction(nameof(Login));
         }
 
-        public async Task<IActionResult> 
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterDTO model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            ApplicationUser user = new ApplicationUser() { Email = model.Email, PhoneNumber = model.PhoneNumber, UserName = model.Email, Name = model.FirstName + " " + model.LastName};
+            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
+            {
+                //Sign in
+                await _signInManager.SignInAsync(user, isPersistent: true);
 
+                //NOTE: add team views
+                return RedirectToAction(nameof(PersonsController.Index), "Persons");
+            }
+            else
+            {
+                foreach (IdentityError error in result.Errors)
+                {
+                    ModelState.AddModelError("Registration Error", error.Description);
+                }
+
+                return View(model);
+            }
+        }
     }
 }

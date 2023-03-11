@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using BugTracker.Core.Domain;
+using BugTracker.UI;
 
 var builder = WebApplication.CreateBuilder(args);
 #region Services Configuration
@@ -15,6 +16,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+    .AddRoles<ApplicationRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders()
     .AddUserStore<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, int>>()
@@ -30,5 +32,6 @@ if (!app.Environment.IsDevelopment())
 #endregion
 app.UseStaticFiles(); 
 app.UseAuthentication();
-app.MapControllers();   
+app.UseAuthorization();
+app.MapControllers();
 app.Run();
